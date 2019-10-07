@@ -1,0 +1,13 @@
+#preloader__container {
+  @include abs100();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #logo__ani {
+    width: 60vw;
+    @include bp(tablet) {
+      width: 25vw;
+    }
+  }
+}

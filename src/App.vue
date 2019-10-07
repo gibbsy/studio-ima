@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <graphics></graphics>
+    <transition name="fade" appear>
+      <router-view class="info" name="info"></router-view>
+    </transition>
+    <app-ui></app-ui>
+    <preloader></preloader>
+    <!--     <div class="projects-container">
+      <router-view class="project" name="project"></router-view>
+    </div>-->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Preloader from "@/scripts/components/Preloader"
+import AppUi from "@/scripts/components/AppUi";
+import Graphics from "@/scripts/components/Graphics";
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    preloader: Preloader,
+    appUi: AppUi,
+    graphics: Graphics
   }
-}
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./scss/reset.scss";
+@import "./scss/main.scss";
+@import "./scss/transitions.scss";
 </style>

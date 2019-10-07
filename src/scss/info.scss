@@ -1,0 +1,32 @@
+#info__container-outer {
+  position: relative;
+  width: 100%;
+  background: rgba(#000,0.5);
+  font-weight: 200;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  #info__container-inner {
+    width: 70%;
+    min-height: 70vh;
+    margin: 20vh 0 10vh 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  #info__col_left {
+    width: 60%;
+    p {
+      font-size: 1.6rem;
+      margin-top: 2rem;
+    }
+  }
+  #info__col_right {
+    position: fixed;
+    width: 35%;
+    left: 65%;
+    h3 {
+      font-weight: 400;
+      color: #eee;
+    }
+  }
+}

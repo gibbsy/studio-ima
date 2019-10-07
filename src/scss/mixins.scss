@@ -1,0 +1,76 @@
+$appLightGrey: #f6f6f6;
+$appGrey: #4a4a4a;
+$appDarkGrey: #212121;
+
+@mixin abs100() {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin abs() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin bp($point) {
+  
+  $bp-mobile: "(max-width: 479px)";
+  $bp-mobLscape: "(min-width: 480px)";
+  $bp-tablet: "(min-width: 768px)";
+  $bp-tabLscape: "(min-width: 1024px)";
+  $bp-medLap: "(min-width: 1280px)";
+  $bp-lrgLap: "(min-width: 1440px)";
+  $bp-hd: "(min-width: 1920px)";
+
+  @if $point == hd {
+    @media only screen and #{$bp-hd} { @content; }
+  }
+  @if $point == lrgLap {
+    @media only screen and #{$bp-lrgLap} { @content; }
+  }
+  @else if $point == medLap {
+    @media only screen and #{$bp-medLap} { @content; }
+  }
+  @else if $point == tabLscape {
+    @media only screen and #{$bp-tabLscape} { @content; }
+  }
+  @else if $point == tablet {
+    @media only screen and #{$bp-tablet}  { @content; }
+  }
+  @else if $point == mobLscape {
+    @media only screen and #{$bp-mobLscape}  { @content; }
+  }
+  @else if $point == mobile {
+    @media only screen and #{$bp-mobile}  { @content; }
+  }
+
+}
