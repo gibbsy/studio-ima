@@ -3,7 +3,7 @@ body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #f6f6f6;
+  background: $appDarkGrey;
   font-family: 'avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,7 +29,7 @@ body, html {
   display: block;
   margin: 0;
   padding: 0;
-  color: #fff;
+  color: $appLightGrey;
   line-height: 1.6;
   overflow-y: scroll;
 }

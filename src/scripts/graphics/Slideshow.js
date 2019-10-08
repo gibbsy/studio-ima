@@ -26,7 +26,7 @@ export default class Slideshow extends PIXI.Application {
     super({
       width: initWidth,
       height: initHeight,
-      backgroundColor: 0x000000,
+      transparent: true,
       antialias: true,
       autoResize: true,
       resolution: 2

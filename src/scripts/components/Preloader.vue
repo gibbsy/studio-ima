@@ -1,7 +1,11 @@
 <template>
   <div id="preloader__container">
-    <div id="preloader__progress"></div>
-    <div id="preloader__logo_ani"></div>
+    <div class="preloader__progress top"></div>
+    <div class="preloader__progress right"></div>
+    <div class="preloader__progress bottom"></div>
+    <div class="preloader__progress left"></div>
+    <!-- <div id="preloader__logo_ani"></div> -->
+    <div id="preloader__percent"><h1>{{ percentLoaded }}</h1></div>
   </div>
 </template>
 <script>
@@ -9,7 +13,13 @@ import bus from "@/scripts/events/eventBus.js"
 export default {
   data() {
     return {
-      animation: {}
+      animation: {},
+      loadedProgress: { percent: 0 }
+    }
+  },
+  computed: {
+    percentLoaded() {
+      return this.loadedProgress.percent < 100 ? `Loading ${this.loadedProgress.percent}%` : 'Welcome';
     }
   },
   methods: {
@@ -18,7 +28,7 @@ export default {
         container: document.getElementById('preloader__logo_ani'),
         renderer: "svg",
         loop: false,
-        autoplay: true,
+        autoplay: false,
         path: `static/animation/logo-ani.json`,
         rendererSettings: {
           preserveAspectRatio:'xMidYMid slice'
@@ -40,12 +50,15 @@ export default {
     })
     },
     onProgress(e) {
-      TweenMax.to('#preloader__progress', 2, { scaleX: e/100 })
+      let pc = Math.floor(e);
+      TweenMax.to('.preloader__progress.top, .preloader__progress.bottom', 2, { scaleX: e/100 })
+      TweenMax.to('.preloader__progress.right, .preloader__progress.left', 2, { scaleY: e/100 })
+      TweenMax.to(this.loadedProgress, 2, { percent: pc, roundProps: "percent" })
     }
   },
   mounted() {
-    this.init();
     setTimeout(() => {
+     this.onReady();
     }, 50);
   }
 }

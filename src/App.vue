@@ -4,8 +4,8 @@
     <transition name="fade" appear>
       <router-view class="info" name="info"></router-view>
     </transition>
-    <app-ui v-if="loaded"></app-ui>
-    <transition name="slow-fade">
+    <app-ui :loaded="loaded"></app-ui>
+    <transition name="fade">
       <preloader v-if="!loaded"></preloader>
     </transition>
     <!--     <div class="projects-container">
