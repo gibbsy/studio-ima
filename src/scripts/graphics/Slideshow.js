@@ -54,7 +54,10 @@ export default class Slideshow extends PIXI.Application {
       this.slides.push(hero);
     });
     this.load(this.slides, () => {
-      bus.emit("HEROES_LOADED")
+      setTimeout(() => {
+        bus.emit("IMAGES_LOADED");
+        bus.emit("PLAY_SLIDESHOW")
+      }, 3000);
     })
 
   }
@@ -109,9 +112,7 @@ export default class Slideshow extends PIXI.Application {
       slide.resource = loader.resources[slide.name];
       slide.slide = new SlideFade(this, slide.resource.texture, i);
     })
-    let currentSlide = this.slides[this.currentIndex].slide;
-    currentSlide.enter();
-    this.play();
+    this.currentSlide = this.slides[this.currentIndex].slide;
   }
   play() {
     const { events } = this;
@@ -128,6 +129,7 @@ export default class Slideshow extends PIXI.Application {
     }
     this.started = true;
     this.animating = true;
+    this.currentSlide.enter();
     this.tl_slideshow = new TimelineMax({repeat: -1})
     .add(() => {
       this.nextSlide() 

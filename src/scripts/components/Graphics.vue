@@ -19,11 +19,13 @@ export default {
     }
   },
   mounted() {
-    this.initScene();
+    bus.on("PRELOADER_READY", () => {
+      this.initScene();
+    })
     bus.on("LOAD_PROGRESS", (e) => {
       console.log(e)
     })
-    bus.on("HEROES_LOADED", () => {
+    bus.on("IMAGES_LOADED", () => {
       console.log("IMAGES LOADED")
     })
     bus.on("NAVIGATE", route => {

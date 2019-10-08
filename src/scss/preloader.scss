@@ -3,11 +3,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #222;
 
   #logo__ani {
     width: 60vw;
     @include bp(tablet) {
       width: 25vw;
     }
+  }
+  #preloader__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #fff;
+    transform-origin: 0;
+    transform: scaleX(0);
   }
 }

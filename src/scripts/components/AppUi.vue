@@ -1,13 +1,15 @@
 <template>
   <div class="app__ui">
-    <transition name="quick-fade">
+    <!-- <transition name="quick-fade">
       <logo-ani v-show="!infoOn"></logo-ani>
-    </transition>
+    </transition> -->
+    <div id="left__bar"></div>
     <header class="ui__header">
-      <h1 class="studio_ima">
+      <!-- <h1 class="studio_ima">
         / Studio
         <span>IMA</span>
-      </h1>
+      </h1> -->
+      <header-logo-ani></header-logo-ani>
       <transition name="quick-fade" mode="out-in">
             <a class="ui__link info__link" @click.prevent="showInfo" v-if="!infoOn" key="info">info</a>
             <a class="ui__link info__close" @click.prevent="closeInfo" v-if="infoOn" key="close"></a>
@@ -19,10 +21,12 @@
 </template>
 <script>
 import LogoAni from "./LogoAni";
+import HeaderLogoAni from "./HeaderLogoAni";
 import bus from "../events/eventBus";
 export default {
   components: {
-    logoAni: LogoAni
+    logoAni: LogoAni,
+    headerLogoAni: HeaderLogoAni,
   },
   data() {
     return {
