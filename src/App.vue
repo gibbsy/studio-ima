@@ -5,7 +5,7 @@
       <router-view class="info" name="info"></router-view>
     </transition>
     <app-ui></app-ui>
-    <preloader></preloader>
+    <!-- <preloader></preloader> -->
     <!--     <div class="projects-container">
       <router-view class="project" name="project"></router-view>
     </div>-->

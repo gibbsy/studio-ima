@@ -2,6 +2,7 @@ $close_size: 30px;
 
 .app__ui {
   @include abs100();
+  border: 10px solid #f7f7f7;
   header {
     position: fixed;
     width: 100%;
