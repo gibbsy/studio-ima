@@ -10,7 +10,7 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus accumsan eros eget tristique. Nullam ultrices orci purus, vitae mattis neque sagittis et. Sed eu felis convallis, volutpat eros ut, semper nisl.</p>
       </div>
       <div id="info__col_right">
-        <a mailto="info@studio-ima.co.uk"><h3>info@studio-ima.co.uk</h3></a>
+        <a mailto="iain@studioima.co.uk"><h3>info@studio-ima.co.uk</h3></a>
         <a mailto="info@studio-ima.co.uk"><h3>+44 (0)7840 147442</h3></a>
       </div>
     </div>

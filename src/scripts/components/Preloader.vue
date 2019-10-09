@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     percentLoaded() {
-      return this.loadedProgress.percent < 100 ? `Loading ${this.loadedProgress.percent}%` : 'Welcome';
+      return this.loadedProgress.percent < 100 ? `${this.loadedProgress.percent}%` : 'Welcome';
     }
   },
   methods: {

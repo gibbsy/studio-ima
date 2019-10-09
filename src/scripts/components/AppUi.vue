@@ -7,8 +7,7 @@
     <transition name="slow-fade" appear>
       <header class="ui__header">
         <h1 class="studio_ima">
-          / Studio
-          <span>IMA</span>
+          Studio<span> IMA</span>
         </h1>
         <transition name="quick-fade" mode="out-in">
               <a class="ui__link info__link" @click.prevent="showInfo" v-if="!infoOn && loaded" key="info">info</a>

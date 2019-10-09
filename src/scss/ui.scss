@@ -3,10 +3,10 @@ $close_size: 30px;
 .app__ui {
   @include abs100();
   border: none;
-  border: 8px solid $appDarkGrey;
+  border: $borderWidth solid $appDarkGrey;
   transition: 1s border ease;
   &.on {
-    border: 8px solid $appLightGrey;
+    border: $borderWidth solid $appLightGrey;
   }
   header {
     position: fixed;
@@ -21,6 +21,7 @@ $close_size: 30px;
     pointer-events: none;
     background: none;
     @include bp(tablet) {
+      height: 10vh;
       padding: 50px 80px 0 80px;
     }
   }

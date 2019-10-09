@@ -27,9 +27,8 @@ export default class Slideshow extends PIXI.Application {
       width: initWidth,
       height: initHeight,
       transparent: true,
-      antialias: true,
       autoResize: true,
-      resolution: 2
+      resolution: 1
     });
     Object.assign(this, {domElement, initWidth, initHeight})
     this.loaded = 0;
@@ -49,7 +48,7 @@ export default class Slideshow extends PIXI.Application {
         name: project.id,
         title: project.title,
         path: `/project/${project.id}`,
-        url: require(`@/assets/images/hero-images/${filename}.jpg`)
+        url: `static/images/hero-images/${filename}.jpg`
       };
       this.slides.push(hero);
     });
@@ -170,7 +169,5 @@ export default class Slideshow extends PIXI.Application {
   }
   animate(delta) {
     this.events.emit('animate', delta);
-    //console.log(delta);
   }
- 
 }

@@ -1,17 +1,17 @@
 #info__container-outer {
-  position: relative;
-  width: 100%;
+  @include abs100();
   background: rgba(#000,0.5);
   font-weight: 200;
   font-size: 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
   #info__container-inner {
     width: 70%;
-    min-height: 70vh;
-    margin: 20vh 0 10vh 0;
+    max-height: 70vh;
     display: flex;
     justify-content: space-between;
+    overflow: auto;
   }
   #info__col_left {
     width: 60%;
