@@ -3,7 +3,6 @@ body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: $appDarkGrey;
   font-family: 'avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -32,4 +31,9 @@ body, html {
   color: $appLightGrey;
   line-height: 1.6;
   overflow-y: scroll;
+  background-color: $appLightGrey;
+  transition: background-color 2s ease;
+  &.loading {
+    background-color: $appDarkGrey;
+  }
 }

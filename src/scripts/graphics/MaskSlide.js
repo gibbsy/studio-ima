@@ -1,13 +1,14 @@
 import ScreenFilter from "./ScreenFilter"
 
 export default class Slide extends PIXI.Container {
-  constructor(app, texture, order) {
+  constructor(app, texture, order, slideDuration) {
     super();
     const { stage, view, events } = app;
     this.ready = false;
     this.onStage = false;   
     this.initScale = 0;
     this.leaving = false;
+    this.slideDuration = slideDuration || 12;
     Object.assign(this, { app, stage, view, events, texture, order }); 
     this.init();
   }
@@ -60,8 +61,8 @@ export default class Slide extends PIXI.Container {
       .set(slideImg.scale, { x: this.initScale, y: this.initScale })
       .set(blur, { blur: 0 })
       .to(mask, 2, { x: -20, width: vw*1.4, ease: Power2.easeInOut }, 0)
-      .to(slideImg.scale, 15, { x: "+=0.25", y: "+=0.25" }, 0)
-      .to(blur, 4, { blur: 4 }, 10)
+      .to(slideImg.scale, 10, { x: "+=0.1", y: "+=0.1" }, 0)
+      .to(blur, 4, { blur: 4 }, this.slideDuration - 3)
   }
   positionSelf() {
     const { slideImg, mask } = this;

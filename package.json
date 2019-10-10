@@ -8,6 +8,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@pixi/filter-shockwave": "^3.0.3",
     "core-js": "^2.6.5",
     "vue": "^2.6.10"
   },

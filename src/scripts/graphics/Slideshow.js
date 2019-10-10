@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js"
 import bus from "../events/eventBus"
 import MouseService from "../events/MouseService"
-import Slide from "./Slide"
 import SlideFade from "./SlideFade"
 import { Projects } from "../data/appData";
 
@@ -15,7 +14,7 @@ Math.degrees = function (radians) {
 };
 
 export default class Slideshow extends PIXI.Application {
-  constructor() {
+  constructor(slideDuration) {
     const domElement = document.getElementById('slideshow');
     const initWidth = domElement.offsetWidth;
     const initHeight = domElement.offsetHeight;
@@ -41,6 +40,7 @@ export default class Slideshow extends PIXI.Application {
     this.slides = [];
     this.currentIndex = 0;
     this.numSlides = Projects.length;
+    this.slideDuration = slideDuration || 12;
 
     Projects.forEach(project => {
       let filename = project.hero;
@@ -109,7 +109,7 @@ export default class Slideshow extends PIXI.Application {
     const { stage, loader, slides } = this;
     slides.forEach((slide, i) => {
       slide.resource = loader.resources[slide.name];
-      slide.slide = new SlideFade(this, slide.resource.texture, i);
+      slide.slide = new SlideFade(this, slide.resource.texture, i, this.slideDuration);
     })
     this.currentSlide = this.slides[this.currentIndex].slide;
   }
@@ -132,7 +132,7 @@ export default class Slideshow extends PIXI.Application {
     this.tl_slideshow = new TimelineMax({repeat: -1})
     .add(() => {
       this.nextSlide() 
-    }, 12)
+    }, this.slideDuration);
   }
   pause() {
     //const { events } = this;

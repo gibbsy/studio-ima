@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     initScene() {
-      this.slideshow = new Slideshow();
+      this.slideshow = new Slideshow(7);
     }
   },
   mounted() {
