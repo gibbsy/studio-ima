@@ -45,7 +45,7 @@ $borderWidth: 6px;
 @mixin bp($point) {
   
   $bp-mobile: "(max-width: 479px)";
-  $bp-mobLscape: "(min-width: 480px)";
+  $bp-mobLandscape: "(min-width: 580px)";
   $bp-tablet: "(min-width: 768px)";
   $bp-tabLscape: "(min-width: 1024px)";
   $bp-medLap: "(min-width: 1280px)";
@@ -67,8 +67,8 @@ $borderWidth: 6px;
   @else if $point == tablet {
     @media only screen and #{$bp-tablet}  { @content; }
   }
-  @else if $point == mobLscape {
-    @media only screen and #{$bp-mobLscape}  { @content; }
+  @else if $point == mobLandscape {
+    @media only screen and #{$bp-mobLandscape}  { @content; }
   }
   @else if $point == mobile {
     @media only screen and #{$bp-mobile}  { @content; }

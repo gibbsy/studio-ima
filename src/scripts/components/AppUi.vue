@@ -1,8 +1,8 @@
 <template>
-  <div class="app__ui" :class="{on: loaded}">
+  <div class="app__ui" :class="{on: loaded, about: aboutOn}">
     <transition name="quick-fade">
-      <!-- <logo-ani v-show="!infoOn"></logo-ani> -->
-      <logo-ani :class="{fade: infoOn}"></logo-ani>
+      <!-- <logo-ani v-show="!aboutOn"></logo-ani> -->
+      <logo-ani :class="{fade: aboutOn}"></logo-ani>
     </transition>
     <transition name="slow-fade" appear>
       <header class="ui__header">
@@ -10,12 +10,12 @@
           Studio<span> IMA</span>
         </h1>
         <transition name="quick-fade" mode="out-in">
-              <a class="ui__link info__link" @click.prevent="showInfo" v-if="!infoOn && loaded" key="info">info</a>
-              <a class="ui__link info__close" @click.prevent="closeInfo" v-if="infoOn" key="close"></a>
+              <a class="ui__link about__link" @click.prevent="showInfo" v-if="!aboutOn && loaded" key="about">about</a>
+              <a class="ui__link about__close" @click.prevent="closeInfo" v-if="aboutOn" key="close"></a>
         </transition>
       </header>
     </transition>
-    <!-- <router-link :to="{ name: 'INFO' }" class="ui__link info__link">info</router-link> -->
+    <!-- <router-link :to="{ name: 'ABOUT' }" class="ui__link about__link">about</router-link> -->
     <!-- <router-link to="/project/project-one">project</router-link> -->
   </div>
 </template>
@@ -31,19 +31,19 @@ export default {
   },
   data() {
     return {
-      infoOn: false
+      aboutOn: false
     };
   },
   methods: {
     showInfo() {
       bus.emit("PAUSE_SLIDESHOW");
-      this.$router.push({ name: "INFO" });
-      this.infoOn = true;
+      this.$router.push({ name: "ABOUT" });
+      this.aboutOn = true;
     },
     closeInfo() {
       bus.emit("PLAY_SLIDESHOW");
       this.$router.push({ name: "HOME" });
-      this.infoOn = false;
+      this.aboutOn = false;
     }
   }
 };

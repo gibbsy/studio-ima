@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Info from '@/scripts/components/Info'
+import About from '@/scripts/components/About'
 import Project from '@/scripts/components/Project'
 
 Vue.use(Router)
@@ -12,10 +12,10 @@ export default new Router({
       name: 'HOME' 
     },
     {
-      path: '/info',
-      name: 'INFO',
+      path: '/about',
+      name: 'ABOUT',
       components: {
-        info: Info
+        about: About
       },
       beforeEnter: (to, from, next) => {
         // prevent deep link

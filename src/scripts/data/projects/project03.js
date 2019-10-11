@@ -1,6 +1,6 @@
 export default {
   id: 'project-three',
-  hero: 'img_03',
+  hero: { url: 'img_03', caption: 'Image 3 copyright lorem ipsum dolor sit amet.' },
   title: 'This is another project title',
   subhead: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nisi sed ultricies luctus, nunc nunc eleifend felis, vitae lacinia ipsum massa in ante.',
   bodyText: [

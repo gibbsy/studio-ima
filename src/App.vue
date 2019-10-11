@@ -1,10 +1,10 @@
 <template>
   <div id="app" :class="{ loading: !loaded }">
     <graphics></graphics>
-    <transition name="fade" appear>
-      <router-view class="info" name="info"></router-view>
-    </transition>
     <app-ui :loaded="loaded"></app-ui>
+    <transition name="fade" appear>
+      <router-view class="about" name="about"></router-view>
+    </transition>
     <transition name="fade">
       <preloader v-if="!loaded"></preloader>
     </transition>

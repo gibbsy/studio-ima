@@ -1,6 +1,6 @@
 import ScreenFilter from "./ScreenFilter"
 
-export default class Slide extends PIXI.Container {
+export default class MaskSlide extends PIXI.Container {
   constructor(app, texture, order, slideDuration) {
     super();
     const { stage, view, events } = app;

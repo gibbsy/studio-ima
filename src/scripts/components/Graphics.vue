@@ -1,5 +1,11 @@
 <template>
-  <div id="slideshow"></div>
+  <div id="slideshow">
+  <ul id="slideshow__captions">
+    <transition name="fade" appear mode="out-in">
+      <li v-for="(project, i) in projects" :key="project.id" v-if="slideIndex == i && showCaption">{{ project.hero.caption }}</li>
+    </transition>
+  </ul>
+  </div>
 </template>
 
 <script>
@@ -10,7 +16,9 @@ import Slideshow from "@/scripts/graphics/Slideshow.js"
 export default {
   data() {
     return {
-      slides: []
+      projects: Projects,
+      slideIndex: 0,
+      showCaption: false
     }
   },
   methods: {
@@ -30,6 +38,13 @@ export default {
     })
     bus.on("NAVIGATE", route => {
       this.$router.push(route);
+    })
+    bus.on("SLIDE_CHANGE", (e) => {
+      this.slideIndex = e;
+      this.showCaption = false;
+    })
+    bus.on("SHOW_CAPTION", () => {
+      this.showCaption = true;
     })
   }
 }
