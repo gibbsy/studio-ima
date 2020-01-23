@@ -24,14 +24,22 @@ export default class Slide extends PIXI.Container {
     const slideImg = new PIXI.Sprite(this.texture);
     slideImg.anchor.set(0.5);
     slideImg.alpha = 0;
+    this.addChild(slideImg);
+    Object.assign(this, { slideImg });
+  }
+  initStamp() {
     const stamp = new PIXI.Sprite(loader.resources.stamp.texture);
     stamp.blendMode = PIXI.BLEND_MODES.ADD;
     stamp.alpha = 0;
     stamp.anchor.set(0.5);
-    stamp.rotation = radians(getRandomInt(0,360));
+    stamp.rotation = radians(getRandomInt(0, 360));
     const stampRotation = Math.random() < 0.5 ? 1 : -1;
-    this.addChild(slideImg, stamp);
-    Object.assign(this, { slideImg, stamp, stampRotation });
+    stamp.width = vw * Math.random();
+    stamp.scale.y = stamp.scale.x;
+    stamp.x = Math.random() < 0.5 ? -cx * Math.random() : cx * Math.random();
+    stamp.y = Math.random() < 0.5 ? -cy * Math.random() : cy * Math.random();
+    this.addChild(stamp);
+    Object.assign(this, { stamp, stampRotation });
   }
   initFilters() {
     const { cx, cy } = this.app.getBounds();
@@ -76,23 +84,21 @@ export default class Slide extends PIXI.Container {
     })
   }
   initAnimation() {
-    const { slideImg, stamp, blur, events } = this;
+    const { slideImg, blur, events } = this;
     this.positionSelf();
     this.shockwave.time = 0;
     let that = this;
     this.tl_slide = new TimelineMax({ paused: true, onUpdate: that.onAnimate, onUpdateScope: that })
       .set(slideImg, {alpha: 0})
-      .set(stamp, {alpha: 0})
       .set(slideImg.scale, { x: this.initScale, y: this.initScale })
       .set(blur, { blur: 0 })
       .to(slideImg, 1, {alpha: 1}, 0)
       .add(() => events.emit("SHOW_CAPTION"), 1.5)
-      .to(stamp, 1, {alpha: 0.2}, 1)
       .to(slideImg.scale, this.slideDuration + 3, { x: "+=0.2", y: "+=0.2" }, 0)
       .to(blur, 4, { blur: 4 }, this.slideDuration - 2)
   }
   positionSelf() {
-    const { slideImg, stamp } = this;
+    const { slideImg } = this;
     const { vw, vh, cx, cy } = this.app.getBounds();
     slideImg.width = vw;
     this.initScale = slideImg.scale.y = slideImg.scale.x;
@@ -100,10 +106,6 @@ export default class Slide extends PIXI.Container {
       slideImg.height = vh;
       this.initScale =  slideImg.scale.x = slideImg.scale.y;
     }
-    stamp.width = vw*Math.random();
-    stamp.scale.y = stamp.scale.x;
-    stamp.x = Math.random() < 0.5 ? -cx * Math.random() : cx * Math.random();
-    stamp.y = Math.random() < 0.5 ? -cy * Math.random() : cy * Math.random();
     this.x = cx;
     this.y = cy;
     this.shockwave.center = {x: cx, y: cy};
@@ -143,6 +145,6 @@ export default class Slide extends PIXI.Container {
       this.saturation += 0.05;      
       this.colorMatrix.saturate(this.saturation, false)
     }
-    this.stamp.rotation += this.stampRotation * 0.002
+    //this.stamp.rotation += this.stampRotation * 0.002
   }
 }
