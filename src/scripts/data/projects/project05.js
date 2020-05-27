@@ -1,6 +1,6 @@
 export default {
   id: 'project-five',
-  hero: { url: 'img_05', caption: 'Image 5 copyright lorem ipsum dolor sit amet.' },
+  hero: { url: 'img_05', caption: 'Archive library (with DFA)' },
   title: 'This is another project title',
   subhead: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nisi sed ultricies luctus, nunc nunc eleifend felis, vitae lacinia ipsum massa in ante.',
   bodyText: [

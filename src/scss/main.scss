@@ -8,7 +8,7 @@ body, html {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   overflow: hidden;
-  @include bp(medLap) {
+  @include bp(1280) {
    height: 100%;
   }
   @include bp(lrgLap) {
@@ -26,10 +26,31 @@ body, html {
   margin: 0;
   padding: 0;
   color: $appLightGrey;
-  line-height: 1.6;
+  line-height: 1.4;
   overflow-y: scroll;
   background-color: $appLightGrey;
   transition: background-color 2s ease;
+  .init {
+    @include abs100();
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      color: $appGrey;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+  }
+  a {
+    color: $appLightGrey;
+  }
+  a:hover {
+    color: #fff;
+  }
+  @include bp(768) {
+    line-height: 1.4;
+  }
   &.loading {
     background-color: $appDarkGrey;
   }

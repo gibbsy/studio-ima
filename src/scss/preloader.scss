@@ -6,7 +6,7 @@
 
   #logo__ani {
     width: 60vw;
-    @include bp(tablet) {
+    @include bp(768) {
       width: 25vw;
     }
   }

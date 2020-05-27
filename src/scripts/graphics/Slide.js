@@ -2,7 +2,7 @@ import { ShockwaveFilter } from '@pixi/filter-shockwave'
 import { getRandomInt, radians } from "../utils"
 
 export default class Slide extends PIXI.Container {
-  constructor(app, texture, order, slideDuration) {
+  constructor(app, texture, index, slideDuration) {
     super();
     const { stage, view, events } = app;
     this.ready = false;
@@ -10,7 +10,7 @@ export default class Slide extends PIXI.Container {
     this.initScale = 0;
     this.leaving = false;
     this.slideDuration = slideDuration || 12;
-    Object.assign(this, { app, stage, view, events, texture, order }); 
+    Object.assign(this, { app, stage, view, events, texture, index }); 
     this.init();
   }
   init() {
@@ -56,9 +56,9 @@ export default class Slide extends PIXI.Container {
     this.slideImg.filters = [this.blur, this.colorMatrix, this.shockwave];
   }
   initEvents() {
-    const { events, order } = this;
+    const { events, index } = this;
     events.on("SLIDE_CHANGE", (e) => {
-      if (e == order) {
+      if (e == index) {
         this.enter();
         console.log("ENTER");
 
@@ -88,7 +88,11 @@ export default class Slide extends PIXI.Container {
     this.positionSelf();
     this.shockwave.time = 0;
     let that = this;
-    this.tl_slide = new TimelineMax({ paused: true, onUpdate: that.onAnimate, onUpdateScope: that })
+    this.tl_slide = new TimelineMax({ 
+      paused: true, 
+      onUpdate: that.onAnimate, 
+      onUpdateScope: that 
+    })
       .set(slideImg, {alpha: 0})
       .set(slideImg.scale, { x: this.initScale, y: this.initScale })
       .set(blur, { blur: 0 })

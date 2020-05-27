@@ -1,6 +1,6 @@
 export default {
   id: 'project-three',
-  hero: { url: 'img_03', caption: 'Image 3 copyright lorem ipsum dolor sit amet.' },
+  hero: { url: 'img_03', caption: 'Cantilevered extension, west lothian, (with DFA), photo: John Sinclair' },
   title: 'This is another project title',
   subhead: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nisi sed ultricies luctus, nunc nunc eleifend felis, vitae lacinia ipsum massa in ante.',
   bodyText: [

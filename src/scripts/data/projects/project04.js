@@ -1,6 +1,6 @@
 export default {
   id: 'project-four',
-  hero: { url: 'img_04', caption: 'Image 4 copyright lorem ipsum dolor sit amet.' },
+  hero: { url: 'img_04', caption: 'Artists Bothy, photo: Johnny Barrington' },
   title: 'This is another project title',
   subhead: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nisi sed ultricies luctus, nunc nunc eleifend felis, vitae lacinia ipsum massa in ante.',
   bodyText: [

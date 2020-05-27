@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js"
 import bus from "../events/eventBus"
-import MouseService from "../events/MouseService"
+//import MouseService from "../events/MouseService"
 import Slide from "./Slide"
-import { Projects } from "../data/appData"
+//import { projects } from "../data/appData"
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180;
@@ -14,7 +14,8 @@ Math.degrees = function (radians) {
 };
 
 export default class Slideshow extends PIXI.Application {
-  constructor(slideDuration) {
+  constructor(projects, slideDuration, isMobile) {
+    
     const domElement = document.getElementById('slideshow');
     const initWidth = domElement.offsetWidth;
     const initHeight = domElement.offsetHeight;
@@ -29,25 +30,29 @@ export default class Slideshow extends PIXI.Application {
       autoResize: true,
       resolution: 2
     });
-    Object.assign(this, {domElement, initWidth, initHeight})
+    Object.assign(this, {domElement, initWidth, initHeight, isMobile})
     this.loaded = 0;
     this.animating = false;
     this.resizing = false;
     this.events = bus;
     this.slides = [];
     this.currentIndex = 0;
-    this.numSlides = Projects.length;
+    this.numSlides = 0;
     this.slideDuration = slideDuration || 12;
 
-    Projects.forEach(project => {
-      let filename = project.hero.url;
-      let hero = {
-        name: project.id,
-        title: project.title,
-        path: `/project/${project.id}`,
-        url: `static/images/hero-images/${filename}.jpg`
-      };
-      this.slides.push(hero);
+    let imgRes = this.isMobile ? 'mob' : 'hd'
+
+    projects.forEach(project => {
+      if(project.published == true) {
+        let hero = {
+          id: project.id,
+          name: project.name,
+          path: `/project/${project.id}`,
+          url: `static/images/hero-images/${imgRes}/${project.heroImage}_${imgRes}.jpg`
+        };
+        this.slides.push(hero);
+      }
+      this.numSlides = this.slides.length;
     });
     let stamp = {name: 'stamp', url: 'static/images/brand_stamp.svg'}
     let manifest = [...this.slides, stamp ];
@@ -93,6 +98,8 @@ export default class Slideshow extends PIXI.Application {
     const { events } = this;
     events.on("PLAY_SLIDESHOW", this.play.bind(this));
     events.on("PAUSE_SLIDESHOW", this.pause.bind(this));
+    events.on("NEXT_SLIDE", this.nextSlide.bind(this));
+    events.on("PREV_SLIDE", this.prevSlide.bind(this));
   }
   initSlides() {
     const { stage, loader, slides } = this;
@@ -131,6 +138,12 @@ export default class Slideshow extends PIXI.Application {
       this.paused = true;
       this.animating = false;
     }
+  }
+  prevSlide() {
+    const { events } = this;
+    let next = this.currentIndex - 1;
+    this.currentIndex = next % this.numSlides;
+    events.emit("SLIDE_CHANGE", this.currentIndex);
   }
   nextSlide() {
     const { events } = this;

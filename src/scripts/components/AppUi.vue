@@ -15,6 +15,10 @@
         </transition>
       </header>
     </transition>
+   <!--  <div id="slideshow__controller">
+      <div id="slideshow__prev" class="slideshow__skip" @click="prevSlide"></div>
+      <div id="slideshow__next" class="slideshow__skip" @click="nextSlide"></div>
+    </div> -->
     <!-- <router-link :to="{ name: 'ABOUT' }" class="ui__link about__link">about</router-link> -->
     <!-- <router-link to="/project/project-one">project</router-link> -->
   </div>
@@ -44,6 +48,12 @@ export default {
       bus.emit("PLAY_SLIDESHOW");
       this.$router.push({ name: "HOME" });
       this.aboutOn = false;
+    },
+    prevSlide() {
+      bus.emit("PREV_SLIDE");
+    },
+    nextSlide() {
+      bus.emit("NEXT_SLIDE");
     }
   }
 };

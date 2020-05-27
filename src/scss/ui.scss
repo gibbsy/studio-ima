@@ -1,4 +1,5 @@
 $close_size: 30px;
+$close_size_sml: 20px;
 
 .app__ui {
   @include abs100();
@@ -17,7 +18,7 @@ $close_size: 30px;
   header {
     position: fixed;
     width: 100vw;
-    height: 50px;
+    height: 40px;
     margin: 0;
     padding: 0 20px;
     display: flex;
@@ -26,7 +27,11 @@ $close_size: 30px;
     line-height: 1;
     pointer-events: none;
     background: none;
-    @include bp(tablet) {
+    @include bp(768) {
+      height: 80px;
+      padding: 0 40px;
+    }
+    @include bp(1024) {
       height: 12vh;
       padding: 0 80px;
     }
@@ -49,7 +54,7 @@ $close_size: 30px;
     margin: 0;
     color: $appGrey;
     transition: color 1s ease;
-    @include bp(tablet) {
+    @include bp(768) {
       font-size: 2rem;
     }
     span {
@@ -67,7 +72,7 @@ $close_size: 30px;
     cursor: pointer;
     pointer-events: auto;
     text-decoration: none;
-    @include bp(tablet) {
+    @include bp(768) {
       font-size: 1.6rem;
     }
     &:hover {
@@ -79,21 +84,24 @@ $close_size: 30px;
     margin-left: auto;
     margin-right: 10px;
     padding: 0;
-    @include bp(tablet) {
+    @include bp(768) {
       margin-right: 0px;
     }
   }
   .about__close {
-    height: $close_size;
-    width: $close_size;
+    height: $close_size_sml;
+    width: $close_size_sml;
     position: relative;
     box-sizing: border-box;
-    line-height: $close_size;
+    line-height: $close_size_sml;
     display: block;
     margin-left: auto;
     margin-right: 10px;
-    @include bp(tablet) {
+    @include bp(768) {
       margin-right: 0px;
+      height: $close_size;
+      width: $close_size;
+      line-height: $close_size;
     }
 
     &:before, &:after {
@@ -103,22 +111,35 @@ $close_size: 30px;
         top: 0;
         left: 0;
         height: $height;
-        width: $close_size;
-        transform: translateY($close_size/2) rotate(-45deg); 
+        width: $close_size_sml;
+        transform: translateY($close_size_sml/2) rotate(-45deg); 
         display: block;
         background-color: $appLightGrey;
         transition: all 0.25s ease-out;
+        @include bp(768) {
+          width: $close_size;
+          transform: translateY($close_size/2) rotate(-45deg); 
+        }
     }
     &:after {
-        transform: translateY($close_size/2) rotate(-135deg);
+        transform: translateY($close_size_sml/2) rotate(-135deg);
+        @include bp(768) {
+          transform: translateY($close_size/2) rotate(-135deg);
+        }
     }
 
     &:hover {
         &:before {
-            transform: translateY($close_size/2) rotate(45deg);
+            transform: translateY($close_size_sml/2) rotate(45deg);
+            @include bp(768) {
+              transform: translateY($close_size/2) rotate(45deg);
+            }
         }
         &:after {
-            transform: translateY($close_size/2) rotate(-45deg);
+            transform: translateY($close_size_sml/2) rotate(-45deg);
+            @include bp(768) {
+              transform: translateY($close_size/2) rotate(-45deg);
+            }
         }
     }
   }
@@ -136,9 +157,25 @@ $close_size: 30px;
 
   #logo__ani {
     width: 60vw;
-    @include bp(mobLandscape) {
+    @include bp(768) {
+      width: 40vw;
+    }
+    @include bp(1024) {
       width: 25vw;
     }
+    @include bp(landscape) {
+      width: 25vw;
+    }
+  }
+}
+
+#slideshow__controller {
+  @include abs100();
+  display: flex;
+  .slideshow__skip {
+    width: 50%;
+    height: 100vh;
+    background: none;
   }
 }
 

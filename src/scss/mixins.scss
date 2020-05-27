@@ -1,6 +1,6 @@
-$appLightGrey: #f7f7f7;
-$appGrey: #4a4a4a;
-$appDarkGrey: #212326;
+$appLightGrey: #e4e4e4;
+$appGrey: #44575a;
+$appDarkGrey: #002b36;
 $borderWidth: 6px;
 
 @mixin abs100() {
@@ -44,11 +44,14 @@ $borderWidth: 6px;
 
 @mixin bp($point) {
   
+  $bp-768: "(min-width: 768px)";
+  $bp-1024: "(min-width: 1024px)";
+  $bp-1280: "(min-width: 1280px)";
   $bp-mobile: "(max-width: 479px)";
-  $bp-mobLandscape: "(min-width: 580px)";
-  $bp-tablet: "(min-width: 768px)";
-  $bp-tabLscape: "(min-width: 1024px)";
-  $bp-medLap: "(min-width: 1280px)";
+  $bp-mobLandscape: "(min-width: 320px) and (max-width: 812px) and (orientation: landscape)";
+  $bp-landscape: "(orientation: landscape)";
+  $bp-tablet: "(min-width: 768px) and (max-width: 1024px)";
+  $bp-tabLandscape: "(min-width: 768px) and (max-width: 1024px) and (orientation: landscape)";
   $bp-lrgLap: "(min-width: 1440px)";
   $bp-hd: "(min-width: 1920px)";
 
@@ -58,17 +61,26 @@ $borderWidth: 6px;
   @if $point == lrgLap {
     @media only screen and #{$bp-lrgLap} { @content; }
   }
-  @else if $point == medLap {
-    @media only screen and #{$bp-medLap} { @content; }
+  @else if $point == 768 {
+    @media only screen and #{$bp-768} { @content; }
   }
-  @else if $point == tabLscape {
-    @media only screen and #{$bp-tabLscape} { @content; }
+  @else if $point == 1024 {
+    @media only screen and #{$bp-1024} { @content; }
+  }
+  @else if $point == 1280 {
+    @media only screen and #{$bp-1280} { @content; }
   }
   @else if $point == tablet {
     @media only screen and #{$bp-tablet}  { @content; }
   }
   @else if $point == mobLandscape {
     @media only screen and #{$bp-mobLandscape}  { @content; }
+  }
+  @else if $point == tabLandscape {
+    @media only screen and #{$bp-tabLandscape}  { @content; }
+  }
+  @else if $point == landscape {
+    @media only screen and #{$bp-landscape}  { @content; }
   }
   @else if $point == mobile {
     @media only screen and #{$bp-mobile}  { @content; }

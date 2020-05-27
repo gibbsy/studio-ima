@@ -1,6 +1,6 @@
 export default {
   id: 'project-one',
-  hero: { url: 'img_01', caption: 'Image 1 copyright lorem ipsum dolor sit amet.' },
+  hero: { url: 'img_01', caption: 'Pig Rock Bothy, Modern One, Edinburgh, photo: Johnny Barrington' },
   title: 'This is another project title',
   subhead: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nisi sed ultricies luctus, nunc nunc eleifend felis, vitae lacinia ipsum massa in ante.',
   bodyText: [
