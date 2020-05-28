@@ -1,6 +1,6 @@
 <template>
   <div id="slideshow">
-    <ul id="slideshow__captions">
+    <ul id="slideshow__captions" v-show="!aboutOn">
       <transition name="fade" appear mode="out-in">
         <li
           v-for="(project, i) in projects"
@@ -23,6 +23,7 @@ export default {
     return {
      // projects: Projects,
       slideIndex: 0,
+      aboutOn: false,
       showCaption: false
     };
   },
@@ -51,7 +52,17 @@ export default {
     bus.on("SHOW_CAPTION", () => {
       this.showCaption = true;
     });
-  }
+  },
+  watch: {
+    $route (to, from) {
+      if(to.name == "ABOUT") {
+        this.aboutOn = true;
+      }
+      if(from.name == "ABOUT") {
+        this.aboutOn = false;
+      }
+    }
+  },
 };
 </script>
 <style lang="scss">

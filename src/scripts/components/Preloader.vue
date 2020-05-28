@@ -19,7 +19,8 @@ export default {
   },
   computed: {
     percentLoaded() {
-      return this.loadedProgress.percent < 100 ? `${this.loadedProgress.percent}%` : 'Welcome';
+      //return this.loadedProgress.percent < 100 ? `${this.loadedProgress.percent}%` : 'Welcome';
+      return this.loadedProgress.percent < 100 ? 'Loading' : 'Welcome';
     }
   },
   methods: {
@@ -51,9 +52,10 @@ export default {
     },
     onProgress(e) {
       let pc = Math.floor(e);
-      TweenMax.to('.preloader__progress.top, .preloader__progress.bottom', 2, { scaleX: e/100 })
-      TweenMax.to('.preloader__progress.right, .preloader__progress.left', 2, { scaleY: e/100 })
-      TweenMax.to(this.loadedProgress, 2, { percent: pc, roundProps: "percent" })
+      console.log(e);
+      TweenMax.to('.preloader__progress.top, .preloader__progress.bottom', 1, { scaleX: e/100 })
+      TweenMax.to('.preloader__progress.right, .preloader__progress.left', 1, { scaleY: e/100 })
+      TweenMax.to(this.loadedProgress, 1, { percent: pc, roundProps: "percent" })
     }
   },
   mounted() {

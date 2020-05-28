@@ -15,7 +15,7 @@ Math.degrees = function (radians) {
 
 export default class Slideshow extends PIXI.Application {
   constructor(projects, slideDuration, isMobile) {
-    
+
     const domElement = document.getElementById('slideshow');
     const initWidth = domElement.offsetWidth;
     const initHeight = domElement.offsetHeight;
@@ -30,7 +30,7 @@ export default class Slideshow extends PIXI.Application {
       autoResize: true,
       resolution: 2
     });
-    Object.assign(this, {domElement, initWidth, initHeight, isMobile})
+    Object.assign(this, { domElement, initWidth, initHeight, isMobile })
     this.loaded = 0;
     this.animating = false;
     this.resizing = false;
@@ -43,7 +43,7 @@ export default class Slideshow extends PIXI.Application {
     let imgRes = this.isMobile ? 'mob' : 'hd'
 
     projects.forEach(project => {
-      if(project.published == true) {
+      if (project.published == true) {
         let hero = {
           id: project.id,
           name: project.name,
@@ -54,15 +54,15 @@ export default class Slideshow extends PIXI.Application {
       }
       this.numSlides = this.slides.length;
     });
-    let stamp = {name: 'stamp', url: 'static/images/brand_stamp.svg'}
-    let manifest = [...this.slides, stamp ];
-    this.load(manifest, () => {
+    let manifest = [...this.slides];
+    /* this.load(manifest, () => {
       setTimeout(() => {
         bus.emit("IMAGES_LOADED");
         bus.emit("PLAY_SLIDESHOW")
       }, 3000);
     })
-
+ */
+    this.init();
   }
   load(manifest, callback) {
     this.loader.add(manifest).load(() => {
@@ -75,12 +75,9 @@ export default class Slideshow extends PIXI.Application {
     });
   }
   init() {
-    // called after assets have loaded
     const { app, stage, view, ticker, events } = this;
     stage.interactive = true;
     this.domElement.appendChild(view);
-    // init mouse listener
-    //this.MouseService = new MouseService(stage);
     window.addEventListener("resize", () => {
       let delay = 500;
       // debounce the resize event
@@ -89,13 +86,21 @@ export default class Slideshow extends PIXI.Application {
       }
       this.resizing = window.setTimeout(this.onResize.bind(this), delay)
     })
-    
+
     //ticker.add(this.animate, this);
     this.initEvents();
     this.initSlides();
   }
   initEvents() {
     const { events } = this;
+    events.on("SLIDE_LOADED", (i) => {
+      if(i == 0) {
+        setTimeout(() => {
+          events.emit("IMAGES_LOADED");
+          this.play()
+        }, 2200);
+      }
+    })
     events.on("PLAY_SLIDESHOW", this.play.bind(this));
     events.on("PAUSE_SLIDESHOW", this.pause.bind(this));
     events.on("NEXT_SLIDE", this.nextSlide.bind(this));
@@ -104,17 +109,17 @@ export default class Slideshow extends PIXI.Application {
   initSlides() {
     const { stage, loader, slides } = this;
     slides.forEach((slide, i) => {
-      slide.resource = loader.resources[slide.name];
-      slide.slide = new Slide(this, slide.resource.texture, i, this.slideDuration);
+      //slide.resource = loader.resources[slide.name];
+      slide.slide = new Slide(this, slide, i, this.slideDuration);
     })
     this.currentSlide = this.slides[this.currentIndex].slide;
   }
   play() {
     const { events } = this;
-    if(this.animating) {
+    if (this.animating) {
       return;
     }
-    if(this.started) {
+    if (this.started) {
       this.tl_slideshow.play();
       let currentSlide = this.slides[this.currentIndex].slide;
       currentSlide.play();
@@ -122,16 +127,18 @@ export default class Slideshow extends PIXI.Application {
       this.animating = true;
       return;
     }
+    console.log("PLAY");
+    
     this.started = true;
     this.animating = true;
     this.currentSlide.enter();
-    this.tl_slideshow = new TimelineMax({repeat: -1})
-    .add(() => {
-      this.nextSlide() 
-    }, this.slideDuration);
+    this.tl_slideshow = new TimelineMax({ repeat: -1 })
+      .add(() => {
+        this.nextSlide()
+      }, this.slideDuration);
   }
   pause() {
-    if( this.animating ) {
+    if (this.animating) {
       this.tl_slideshow.pause();
       let currentSlide = this.slides[this.currentIndex].slide;
       currentSlide.pause();
