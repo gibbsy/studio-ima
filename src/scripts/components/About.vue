@@ -17,6 +17,11 @@
       <div id="about__col-right">
         <a href="mailto:iain@studioima.co.uk" target="_blank">iain@studioima.co.uk</a>
         <a href="tel:+447840147442">+44 (0)7840 147442</a>
+        <div id="about__org-logos__mobile">
+          <img src="static/images/riba_logo.svg" alt="riba" />
+          <img src="static/images/rias_logo.svg" alt="rias" />
+          <img src="static/images/arb_logo.svg" alt="arb" />
+        </div>
       </div>
     </div>
   </div>
