@@ -7,13 +7,13 @@ $close_size_sml: 20px;
   border: $borderWidth solid $appDarkGrey;
   transition: 1s all ease;
   background: none;
-  background: rgba(0,0,0,0.1);
-  background: linear-gradient(0deg, rgba(0,0,0,0) 20%, rgba(0,0,0,0.2) 100%);
+  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 100%);
   &.on {
     border: $borderWidth solid $appLightGrey;
   }
   &.about {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
   header {
     position: fixed;
@@ -27,7 +27,7 @@ $close_size_sml: 20px;
     line-height: 1;
     pointer-events: none;
     background: none;
-    @include bp(768) {
+    @media (min-width: 768px) and (orientation: portrait) {
       height: 80px;
       padding: 0 40px;
     }
@@ -54,7 +54,7 @@ $close_size_sml: 20px;
     margin: 0;
     color: $appGrey;
     transition: color 1s ease;
-    @include bp(768) {
+    @include bp(1024) {
       font-size: 2rem;
     }
     span {
@@ -104,43 +104,44 @@ $close_size_sml: 20px;
       line-height: $close_size;
     }
 
-    &:before, &:after {
-        $height: 2px;
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: $height;
-        width: $close_size_sml;
-        transform: translateY($close_size_sml/2) rotate(-45deg); 
-        display: block;
-        background-color: $appLightGrey;
-        transition: all 0.25s ease-out;
-        @include bp(768) {
-          width: $close_size;
-          transform: translateY($close_size/2) rotate(-45deg); 
-        }
+    &:before,
+    &:after {
+      $height: 2px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: $height;
+      width: $close_size_sml;
+      transform: translateY($close_size_sml/2) rotate(-45deg);
+      display: block;
+      background-color: $appLightGrey;
+      transition: all 0.25s ease-out;
+      @include bp(768) {
+        width: $close_size;
+        transform: translateY($close_size/2) rotate(-45deg);
+      }
     }
     &:after {
-        transform: translateY($close_size_sml/2) rotate(-135deg);
-        @include bp(768) {
-          transform: translateY($close_size/2) rotate(-135deg);
-        }
+      transform: translateY($close_size_sml/2) rotate(-135deg);
+      @include bp(768) {
+        transform: translateY($close_size/2) rotate(-135deg);
+      }
     }
 
     &:hover {
-        &:before {
-            transform: translateY($close_size_sml/2) rotate(45deg);
-            @include bp(768) {
-              transform: translateY($close_size/2) rotate(45deg);
-            }
+      &:before {
+        transform: translateY($close_size_sml/2) rotate(45deg);
+        @include bp(768) {
+          transform: translateY($close_size/2) rotate(45deg);
         }
-        &:after {
-            transform: translateY($close_size_sml/2) rotate(-45deg);
-            @include bp(768) {
-              transform: translateY($close_size/2) rotate(-45deg);
-            }
+      }
+      &:after {
+        transform: translateY($close_size_sml/2) rotate(-45deg);
+        @include bp(768) {
+          transform: translateY($close_size/2) rotate(-45deg);
         }
+      }
     }
   }
 }
@@ -181,17 +182,17 @@ $close_size_sml: 20px;
 
 @keyframes close_btn_before {
   from {
-    transform: translateY(20px) rotate(-45deg) scaleX(0); 
+    transform: translateY(20px) rotate(-45deg) scaleX(0);
   }
   to {
-    transform: translateY(20px) rotate(-45deg) scaleX(1); 
+    transform: translateY(20px) rotate(-45deg) scaleX(1);
   }
 }
 @keyframes close_btn_after {
   from {
-    transform: translateY(20px) rotate(-135deg) scaleX(0); 
+    transform: translateY(20px) rotate(-135deg) scaleX(0);
   }
   to {
-    transform: translateY(20px) rotate(-135deg) scaleX(1); 
+    transform: translateY(20px) rotate(-135deg) scaleX(1);
   }
 }

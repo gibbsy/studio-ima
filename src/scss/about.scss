@@ -21,7 +21,7 @@
       flex-direction: column;
     }
     @include bp(mobLandscape) {
-      max-height: 70vh;
+      max-height: 78vh;
     }
     @include bp(1024) {
       max-height: 75vh;
@@ -40,7 +40,8 @@
     #about__text {
       padding: 4px 12px 12px 0;
       max-height: 55vh;
-      overflow-y: scroll;
+      overflow-y: auto;
+      overflow-x: hidden;
       @include bp(1024) {
         padding: 12px 12px 12px 0;
       }

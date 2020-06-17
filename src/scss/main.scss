@@ -27,7 +27,7 @@ body, html {
   padding: 0;
   color: $appLightGrey;
   line-height: 1.4;
-  overflow-y: scroll;
+  overflow: hidden;
   background-color: $appLightGrey;
   transition: background-color 2s ease;
   .init {
