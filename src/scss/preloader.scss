@@ -6,8 +6,46 @@
 
   #logo__ani {
     width: 60vw;
-    @include bp(tablet) {
+    @include bp(768) {
       width: 25vw;
     }
+  }
+  #preloader__percent {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $appGrey;
+  }
+  .preloader__progress {
+    position: absolute;
+    background-color: $appGrey; 
+    &.top, &.bottom {
+      width: 100%;
+      height: $borderWidth;
+      transform: scaleX(0);
+      left: 0;
+    }
+    &.left, &.right {
+      width: $borderWidth;
+      height: 100%;
+      transform: scaleY(0);
+      top: 0;
+    }
+    &.top {
+      top: 0;
+      transform-origin: 0;
+    }
+    &.right {
+      right: 0;
+      transform-origin: 0 100%;
+    }
+    &.bottom {
+      bottom: 0;
+      top: auto;
+      transform-origin: 100% 100%;
+    }
+    &.left {
+      left: 0;
+      transform-origin: 0 100%;
+    }   
   }
 }

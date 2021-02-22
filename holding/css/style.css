@@ -1,0 +1,90 @@
+@font-face {
+    font-family: "avenir";
+    font-weight: 500;
+    font-style: normal;
+    src: url("fonts/avenir/avenir-medium.woff") format("woff");
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+html, body {
+  line-height: 1;
+  background: #002b36;
+  font-family: "avenir", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: #e4e4e4;
+  margin: 0;
+  padding: 0;
+}
+
+#holding-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-top: 3rem;
+  opacity: 0;
+  animation: 1s fade-in forwards;
+  animation-delay: 0.5s;
+}
+
+#holding-content img {
+  width: 50%;
+  max-width: 440px;
+  opacity: 0;
+  animation: 1s fade-in forwards;
+  animation-delay: 0.25s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #holding-content img {
+    width: 20%;
+  }
+}

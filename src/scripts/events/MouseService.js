@@ -23,22 +23,26 @@ export default class MouseService {
         window.clearTimeout(this.vTimeout);
       }
       let prevMouse = this.mouseData;
-      let relCoords = absToRel(eventData.data.global, _stage.width, _stage.height);
-      TweenMax.to(this.mouseData, 1, {
+      let relCoords = absToRel(
+        eventData.data.global,
+        _stage.width,
+        _stage.height
+      );
+      gsap.to(this.mouseData, 1, {
         x: eventData.data.global.x,
         y: eventData.data.global.y,
         relX: relCoords.x,
         relY: relCoords.y,
         vX: Math.abs(prevMouse.x - eventData.data.global.x) / 60,
         vY: Math.abs(prevMouse.y - eventData.data.global.y) / 60,
-        ease: Power2.easeOut
+        ease: "Power2.easeOut"
       });
 
       this.vTimeout = window.setTimeout(() => {
-        TweenMax.to(this.mouseData, 3, {
+        gsap.to(this.mouseData, 3, {
           vX: 0,
           vY: 0,
-          ease: Power2.easeInOut
+          ease: "Power2.easeInOut"
         });
       }, 1000);
     });

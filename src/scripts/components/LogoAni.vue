@@ -19,7 +19,7 @@ export default {
         container: document.getElementById('logo__ani'),
         renderer: "svg",
         loop: false,
-        autoplay: true,
+        autoplay: false,
         path: `static/animation/logo-ani.json`,
         rendererSettings: {
           preserveAspectRatio:'xMidYMid slice'
@@ -39,7 +39,12 @@ export default {
   mounted() {
     setTimeout(() => {
       this.init();
-    }, 1000);
+    }, 100);
+    bus.on("IMAGES_LOADED", () => {
+      setTimeout(() => {
+        this.animation.play();
+      }, 500);
+    })
   }
 }
 </script>

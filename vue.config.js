@@ -1,10 +1,10 @@
 module.exports = {
-  publicPath: './',
+  publicPath: "./",
   configureWebpack: {
     externals: {
-      'pixi.js': 'PIXI',
-      zepto: 'Zepto',
-      gsap: 'TweenMax'
+      "pixi.js": "PIXI",
+      zepto: "Zepto",
+      gsap: "TweenMax"
     }
   },
   productionSourceMap: false,
@@ -19,4 +19,4 @@ module.exports = {
       }
     }
   }
-}
+};

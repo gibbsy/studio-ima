@@ -1,10 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './scripts/router'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./scripts/router";
+import PerfectScrollbar from "vue2-perfect-scrollbar";
+import BlockContent from "sanity-blocks-vue-component";
+Vue.component("block-content", BlockContent);
 
-Vue.config.productionTip = false
+Vue.use(PerfectScrollbar);
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: h => h(App),
-}).$mount('#app')
+  render: h => h(App)
+}).$mount("#app");
