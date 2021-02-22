@@ -1,35 +1,35 @@
 <template>
-    <div id="header__logo__ani"></div>
+  <div id="header__logo__ani"></div>
 </template>
 <script>
-import bus from "@/scripts/events/eventBus.js"
+import bus from "@/scripts/events/eventBus.js";
 export default {
   data() {
     return {
       animation: {}
-    }
+    };
   },
   methods: {
     init() {
-        this.animation = lottie.loadAnimation({
-        container: document.getElementById('header__logo__ani'),
+      this.animation = lottie.loadAnimation({
+        container: document.getElementById("header__logo__ani"),
         renderer: "svg",
         loop: false,
         autoplay: true,
-        path: `static/animation/logo-ani-grey.json`,
+        path: "static/animation/logo-ani-grey.json",
         rendererSettings: {
-          preserveAspectRatio:'xMidYMid slice'
+          preserveAspectRatio: "xMidYMid slice"
         }
       });
       this.animation.addEventListener("DOMLoaded", () => {
-        console.log('Animation ready');
-        bus.emit("ANIMATION_READY")
+        console.log("Animation ready");
+        bus.emit("ANIMATION_READY");
         setTimeout(() => {
-          if(this.onReady) {
-            this.onReady()
+          if (this.onReady) {
+            this.onReady();
           }
         }, 200);
-      })
+      });
     }
   },
   mounted() {
@@ -37,5 +37,5 @@ export default {
       this.init();
     }, 1000);
   }
-}
+};
 </script>
