@@ -39,6 +39,7 @@ module.exports = {
   globals: {
     gtag: "readonly",
     PIXI: "readonly",
-    gsap: "readonly"
+    gsap: "readonly",
+    lottie: "readonly"
   }
 };
