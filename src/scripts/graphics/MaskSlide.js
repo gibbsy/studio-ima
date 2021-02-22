@@ -1,15 +1,15 @@
-import ScreenFilter from "./ScreenFilter"
+import ScreenFilter from "./ScreenFilter";
 
 export default class MaskSlide extends PIXI.Container {
   constructor(app, texture, order, slideDuration) {
     super();
     const { stage, view, events } = app;
     this.ready = false;
-    this.onStage = false;   
+    this.onStage = false;
     this.initScale = 0;
     this.leaving = false;
     this.slideDuration = slideDuration || 12;
-    Object.assign(this, { app, stage, view, events, texture, order }); 
+    Object.assign(this, { app, stage, view, events, texture, order });
     this.init();
   }
   // init the slide
@@ -17,17 +17,17 @@ export default class MaskSlide extends PIXI.Container {
     this.initGraphics();
     this.initFilters();
     this.initEvents();
-    this.initAnimation();  
+    this.initAnimation();
     this.ready = true;
   }
   initGraphics() {
     const { vw, vh, cx, cy } = this.app.getBounds();
     const mask = new PIXI.Graphics();
     mask.beginFill(0xff3300);
-    mask.drawRect(0, -20, 1, vh*1.2);
-    mask.skew.set(Math.radians(-22),0);
-    //mask.setTransform(cx*1.1,-20,1,1,0,Math.radians(-22),0, 0, 0); 
-    
+    mask.drawRect(0, -20, 1, vh * 1.2);
+    mask.skew.set(Math.radians(-22), 0);
+    //mask.setTransform(cx*1.1,-20,1,1,0,Math.radians(-22),0, 0, 0);
+
     let slideImg = new PIXI.Sprite(this.texture);
     slideImg.anchor.set(0.5);
     slideImg.mask = mask;
@@ -40,17 +40,16 @@ export default class MaskSlide extends PIXI.Container {
   }
   initEvents() {
     const { events, order } = this;
-    events.on("SLIDE_CHANGE", (e) => {
+    events.on("SLIDE_CHANGE", e => {
       if (e == order) {
         this.enter();
         console.log("ENTER");
-
       } else {
         window.setTimeout(() => {
-          this.leave()
-        })
+          this.leave();
+        });
       }
-    })
+    });
   }
   initAnimation() {
     const { vw, vh, cx, cy } = this.app.getBounds();
@@ -60,14 +59,14 @@ export default class MaskSlide extends PIXI.Container {
       .set(mask, { width: 1 })
       .set(slideImg.scale, { x: this.initScale, y: this.initScale })
       .set(blur, { blur: 0 })
-      .to(mask, 2, { x: -20, width: vw*1.4, ease: Power2.easeInOut }, 0)
+      .to(mask, 2, { x: -20, width: vw * 1.4, ease: Power2.easeInOut }, 0)
       .to(slideImg.scale, 10, { x: "+=0.1", y: "+=0.1" }, 0)
-      .to(blur, 4, { blur: 4 }, this.slideDuration - 3)
+      .to(blur, 4, { blur: 4 }, this.slideDuration - 3);
   }
   positionSelf() {
     const { slideImg, mask } = this;
     const { vw, vh, cx, cy } = this.app.getBounds();
-   /*  if (vh >= vw) {
+    /*  if (vh >= vw) {
       slideImg.height = vh+50;
       this.initScale = slideImg.scale.x = slideImg.scale.y;
     } else {
@@ -76,7 +75,7 @@ export default class MaskSlide extends PIXI.Container {
     } */
     slideImg.width = vw;
     this.initScale = slideImg.scale.y = slideImg.scale.x;
-    if(slideImg.height < vh) {
+    if (slideImg.height < vh) {
       slideImg.height = vh;
       this.initScale = slideImg.scale.x = slideImg.scale.y;
     }
@@ -93,14 +92,14 @@ export default class MaskSlide extends PIXI.Container {
     this.onStage = true;
     this.positionSelf();
     stage.addChild(this);
-    this.tl_slide.restart();    
+    this.tl_slide.restart();
   }
   // the leave animation
   leave() {
     const { stage, mask, blur } = this;
     this.leaving = setTimeout(() => {
       stage.removeChild(this);
-      this.onStage = false;      
+      this.onStage = false;
     }, 2000);
   }
   play() {
