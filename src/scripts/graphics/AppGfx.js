@@ -1,10 +1,10 @@
-import * as PIXI from "pixi.js"
-import bus from "../events/eventBus"
-import MouseService from "../events/MouseService"
+import * as PIXI from "pixi.js";
+import bus from "../events/eventBus";
+import MouseService from "../events/MouseService";
 
 export default class AppGfx extends PIXI.Application {
   constructor() {
-    const domEl = document.getElementById('app-graphics');
+    const domEl = document.getElementById("app-graphics");
     const initWidth = document.offsetWidth;
     const initHeight = document.initHeight;
 
@@ -16,7 +16,7 @@ export default class AppGfx extends PIXI.Application {
       autoResize: true,
       legacy: isLegacy,
       transparent: true
-    })
+    });
     this.events = bus;
   }
   load(manifest, callback) {
@@ -24,7 +24,7 @@ export default class AppGfx extends PIXI.Application {
       callback();
       this.init();
     });
-    this.loader.onProgress.add((e) => {
+    this.loader.onProgress.add(e => {
       bus.emit("LOAD_PROGRESS", e.progress);
     });
   }
@@ -35,7 +35,7 @@ export default class AppGfx extends PIXI.Application {
     this.domElement.appendChild(view);
     // init mouse listener
     this.MouseService = new MouseService(stage);
-    
+
     ticker.add(this.animate, this);
     window.addEventListener("resize", () => {
       let delay = 500;
@@ -43,12 +43,12 @@ export default class AppGfx extends PIXI.Application {
       if (this.resizing) {
         window.clearTimeout(this.resizing);
       }
-      this.resizing = window.setTimeout(this.onResize.bind(this), delay)
-    })
+      this.resizing = window.setTimeout(this.onResize.bind(this), delay);
+    });
 
-    events.on('USER_ACTION', (e) => {
+    events.on("USER_ACTION", e => {
       this.userAction(e);
-    })
+    });
 
     this.initScenes();
   }
@@ -67,7 +67,7 @@ export default class AppGfx extends PIXI.Application {
     return { vw, vh, cx, cy };
   }
   animate(delta) {
-    this.events.emit('animate', delta);
+    this.events.emit("animate", delta);
     if (this.MouseService.mouseData.x > 0) {
       this.light.x = this.MouseService.mouseData.x;
       this.light.y = this.MouseService.mouseData.y;

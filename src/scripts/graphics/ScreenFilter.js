@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js"
+import * as PIXI from "pixi.js";
 /**
  * This class provides provides a filter that causes distortion
  * based on a screen size and in relation to the user's cursor.
@@ -10,9 +10,8 @@ import * as PIXI from "pixi.js"
  * @created Mar 20, 2019
  */
 export default class ScreenFilter extends PIXI.Filter {
-
   /**
-   * The Screenfilter constructor assembles all of the uniforms 
+   * The Screenfilter constructor assembles all of the uniforms
    * and initialises the superclass.
    *
    * @constructor
@@ -27,15 +26,21 @@ export default class ScreenFilter extends PIXI.Filter {
     // Set up the filter uniforms
     this.uniforms.time = 0;
     this.uniforms.mouse = [0, 0];
-    this.uniforms.u_resolution = [window.innerWidth * this.resolution, window.innerHeight * this.resolution];
-    this.uniforms.ratio = this.uniforms.u_resolution[1] < this.uniforms.u_resolution[0] ? this.uniforms.u_resolution[0] / this.uniforms.u_resolution[1] : this.uniforms.u_resolution[1] / this.uniforms.u_resolution[0];
+    this.uniforms.u_resolution = [
+      window.innerWidth * this.resolution,
+      window.innerHeight * this.resolution
+    ];
+    this.uniforms.ratio =
+      this.uniforms.u_resolution[1] < this.uniforms.u_resolution[0]
+        ? this.uniforms.u_resolution[0] / this.uniforms.u_resolution[1]
+        : this.uniforms.u_resolution[1] / this.uniforms.u_resolution[0];
 
     // This simply stops the filter from passing unexpected params to our shader
     this.autoFit = false;
 
     // Bund our resize handler
     this.onResize = this.onResize.bind(this);
-    window.addEventListener('resize', this.onResize);
+    window.addEventListener("resize", this.onResize);
   }
 
   /**
@@ -45,8 +50,14 @@ export default class ScreenFilter extends PIXI.Filter {
    * @return null
    */
   onResize() {
-    this.uniforms.u_resolution = [window.innerWidth * this.resolution, window.innerHeight * this.resolution];
-    this.uniforms.ratio = this.uniforms.u_resolution[1] < this.uniforms.u_resolution[0] ? this.uniforms.u_resolution[0] / this.uniforms.u_resolution[1] : this.uniforms.u_resolution[1] / this.uniforms.u_resolution[0];
+    this.uniforms.u_resolution = [
+      window.innerWidth * this.resolution,
+      window.innerHeight * this.resolution
+    ];
+    this.uniforms.ratio =
+      this.uniforms.u_resolution[1] < this.uniforms.u_resolution[0]
+        ? this.uniforms.u_resolution[0] / this.uniforms.u_resolution[1]
+        : this.uniforms.u_resolution[1] / this.uniforms.u_resolution[0];
   }
 
   /**
@@ -183,7 +194,7 @@ export default class ScreenFilter extends PIXI.Filter {
    */
   apply(filterManager, input, output) {
     // Increment the time uniform
-    this.uniforms.time += .01;
+    this.uniforms.time += 0.01;
     // Apply the filter.
     filterManager.applyFilter(this, input, output);
   }
@@ -196,7 +207,12 @@ export default class ScreenFilter extends PIXI.Filter {
    * @default [0,0]
    */
   set mousepos(value) {
-    if (value instanceof Array && value.length === 2 && !isNaN(value[0]) && !isNaN(value[1])) {
+    if (
+      value instanceof Array &&
+      value.length === 2 &&
+      !isNaN(value[0]) &&
+      !isNaN(value[1])
+    ) {
       this._mousepos = value;
       this.uniforms.mouse = value;
     }
