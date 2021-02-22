@@ -3,10 +3,12 @@
     <div id="about__container-inner">
       <div id="about__col-left">
         <div id="about__text">
-          <p class="intro">{{ intro.content }}</p>
-          <p v-for="para in body">
-            {{ para.content }}
-          </p>
+          <block-content
+            :blocks="content.intro"
+            className="intro"
+            :renderContainerOnSingleChild="true"
+          ></block-content>
+          <block-content :blocks="content.aboutTxt"> </block-content>
         </div>
         <div id="about__org-logos">
           <img src="static/images/riba_logo.svg" alt="riba" />
@@ -15,7 +17,9 @@
         </div>
       </div>
       <div id="about__col-right">
-        <a href="mailto:iain@studioima.co.uk" target="_blank">iain@studioima.co.uk</a>
+        <a href="mailto:iain@studioima.co.uk" target="_blank"
+          >iain@studioima.co.uk</a
+        >
         <a href="tel:+447840147442">+44 (0)7840 147442</a>
         <div id="about__org-logos__mobile">
           <img src="static/images/riba_logo.svg" alt="riba" />
@@ -33,12 +37,13 @@ export default {
   data() {
     return {
       intro: "",
-      body: []
+      body: [],
+      serializers: {
+        types: {
+          p: props => <p className="intro" {...props} />
+        }
+      }
     };
-  },
-  mounted() {
-    this.intro = this.content[0];
-    this.body = this.content.slice(1, this.content.length);
   }
 };
 </script>

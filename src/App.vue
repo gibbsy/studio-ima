@@ -1,10 +1,14 @@
 <template>
   <div id="app" :class="{ loading: !loaded }">
     <div class="init" v-if="!dataReady"><h1>Please wait</h1></div>
-    <graphics v-if="dataReady" :projects="projects" :isMobile="isMobile"></graphics>
+    <graphics
+      v-if="dataReady"
+      :projects="projects"
+      :isMobile="isMobile"
+    ></graphics>
     <app-ui :loaded="loaded"></app-ui>
     <transition name="fade" appear>
-      <router-view class="about" name="about" :content="bio"></router-view>
+      <router-view class="about" name="about" :content="about"></router-view>
     </transition>
     <transition name="fade">
       <preloader v-if="dataReady && !loaded"></preloader>
@@ -16,11 +20,16 @@
 </template>
 
 <script>
-import bus from "@/scripts/events/eventBus.js"
-import Preloader from "@/scripts/components/Preloader"
+import bus from "@/scripts/events/eventBus.js";
+import Preloader from "@/scripts/components/Preloader";
 import AppUi from "@/scripts/components/AppUi";
 import Graphics from "@/scripts/components/Graphics";
-import axios from 'axios';
+import sanity from "@/scripts/data/sanity";
+
+const query = `{
+  "projects":*[_type=="projectList"]{featuredProjects[]->{_id, slug, title, heroImage, caption, credit, featuredMobile}},
+	"about": *[_type=="about"]
+}`;
 export default {
   name: "app",
   components: {
@@ -30,33 +39,60 @@ export default {
   },
   data() {
     return {
-      isMobile: '',
+      isMobile: "",
       dataReady: false,
       projects: {},
-      bio: {},
+      about: {},
       loaded: false
-    }
+    };
   },
   methods: {
     getData() {
-      var endPoint = this.isMobile ? 'projectsMobile' : 'projects';
+      /*  var endPoint = this.isMobile ? 'projectsMobile' : 'projects';
       axios.get('https://v2-api.sheety.co/e823bbe735347c6307cf679fdceeca0c/studioIma/' + endPoint)
       .then(response => {
         console.log(response);
         this.projects = response.data[endPoint].filter(project => project.published == true)
         console.log(this.projects);
-         axios.get('https://v2-api.sheety.co/e823bbe735347c6307cf679fdceeca0c/studioIma/bio')
+         axios.get('https://v2-api.sheety.co/e823bbe735347c6307cf679fdceeca0c/studioIma/about')
         .then(response => {
           console.log(response);
-          this.bio = response.data.bio
+          this.about = response.data.about
           this.initSlideshow()
         })
-      })
+      }) */
+      sanity.fetch(query).then(
+        data => {
+          console.log(data);
+          let projects = data.projects[0].featuredProjects;
+          if (this.isMobile) {
+            console.log("mobile");
+            let projectsMobile = projects.filter(
+              item => item.projectsMobile == true
+            );
+            projectsMobile.forEach((el, i) => {
+              el.index = i;
+            });
+            this.projects = projectsMobile;
+          } else {
+            projects.forEach((el, i) => {
+              el.index = i;
+            });
+            this.projects = projects;
+          }
+
+          this.about = data.about[0];
+          this.initSlideshow();
+        },
+        error => {
+          console.error(error);
+        }
+      );
     },
     initSlideshow() {
       bus.on("IMAGES_LOADED", () => {
-        this.loaded = true
-      })
+        this.loaded = true;
+      });
       this.dataReady = true;
     }
   },
@@ -64,7 +100,7 @@ export default {
     this.isMobile = PIXI.utils.isMobile.phone;
     console.log(this.isMobile);
     this.getData();
-  },
+  }
 };
 </script>
 

@@ -1,27 +1,28 @@
-import * as PIXI from "pixi.js"
-import bus from "../events/eventBus"
-//import MouseService from "../events/MouseService"
-import Slide from "./Slide"
-//import { projects } from "../data/appData"
+import * as PIXI from "pixi.js";
+import bus from "../events/eventBus";
+import Slide from "./Slide";
+import imageUrlBuilder from "@sanity/image-url";
+import sanity from "../data/sanity";
+const urlBuilder = imageUrlBuilder(sanity);
 
-Math.radians = function (degrees) {
-  return degrees * Math.PI / 180;
+Math.radians = function(degrees) {
+  return (degrees * Math.PI) / 180;
 };
 
 // Converts from radians to degrees.
-Math.degrees = function (radians) {
-  return radians * 180 / Math.PI;
+Math.degrees = function(radians) {
+  return (radians * 180) / Math.PI;
 };
+
+function urlFor(source) {
+  return urlBuilder.image(source);
+}
 
 export default class Slideshow extends PIXI.Application {
   constructor(projects, slideDuration, isMobile) {
-
-    const domElement = document.getElementById('slideshow');
+    const domElement = document.getElementById("slideshow");
     const initWidth = domElement.offsetWidth;
     const initHeight = domElement.offsetHeight;
-    /* let isIE = navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1) || (!!window.MSInputMethodContext && !!document.documentMode) || (navigator.appVersion.indexOf('MSIE 10') !== -1);
-    let webGLSupport = PIXI.utils.isWebGLSupported();
-    let isLegacy = (isIE || !webGLSupport); */
 
     super({
       width: initWidth,
@@ -30,31 +31,38 @@ export default class Slideshow extends PIXI.Application {
       autoResize: true,
       resolution: 2
     });
-    Object.assign(this, { domElement, initWidth, initHeight, isMobile })
+    Object.assign(this, { domElement, initWidth, initHeight, isMobile });
     this.loaded = 0;
     this.animating = false;
     this.resizing = false;
+    this.transitioning = false;
     this.events = bus;
     this.slides = [];
     this.currentIndex = 0;
     this.numSlides = 0;
     this.slideDuration = slideDuration || 12;
 
-    let imgRes = this.isMobile ? 'mob' : 'hd'
+    // let imgRes = this.isMobile ? "mob" : "hd";
 
     projects.forEach(project => {
-      if (project.published == true) {
-        let hero = {
-          id: project.id,
-          name: project.name,
-          path: `/project/${project.id}`,
-          url: `static/images/hero-images/${imgRes}/${project.heroImage}_${imgRes}.jpg`
-        };
-        this.slides.push(hero);
-      }
+      console.log(project);
+      let hero = {
+        id: project._id,
+        name: project.title,
+        path: `/project/${project.id}`,
+        url: urlFor(project.heroImage)
+          .width(initWidth)
+          .height(initHeight)
+          .dpr(2)
+          .format("jpg")
+          .quality(40)
+          .url()
+      };
+      this.slides.push(hero);
+
       this.numSlides = this.slides.length;
     });
-    let manifest = [...this.slides];
+    // let manifest = [...this.slides];
     /* this.load(manifest, () => {
       setTimeout(() => {
         bus.emit("IMAGES_LOADED");
@@ -64,18 +72,8 @@ export default class Slideshow extends PIXI.Application {
  */
     this.init();
   }
-  load(manifest, callback) {
-    this.loader.add(manifest).load(() => {
-      callback();
-      console.log(this.loader.resources)
-      this.init();
-    });
-    this.loader.onProgress.add((e) => {
-      bus.emit("LOAD_PROGRESS", e.progress);
-    });
-  }
   init() {
-    const { app, stage, view, ticker, events } = this;
+    const { stage, view } = this;
     stage.interactive = true;
     this.domElement.appendChild(view);
     window.addEventListener("resize", () => {
@@ -84,8 +82,8 @@ export default class Slideshow extends PIXI.Application {
       if (this.resizing) {
         window.clearTimeout(this.resizing);
       }
-      this.resizing = window.setTimeout(this.onResize.bind(this), delay)
-    })
+      this.resizing = window.setTimeout(this.onResize.bind(this), delay);
+    });
 
     //ticker.add(this.animate, this);
     this.initEvents();
@@ -93,29 +91,29 @@ export default class Slideshow extends PIXI.Application {
   }
   initEvents() {
     const { events } = this;
-    events.on("SLIDE_LOADED", (i) => {
-      if(i == 0) {
+    events.on("SLIDE_LOADED", i => {
+      if (i == 0) {
         setTimeout(() => {
           events.emit("IMAGES_LOADED");
-          this.play()
+          this.play();
         }, 2200);
       }
-    })
+    });
     events.on("PLAY_SLIDESHOW", this.play.bind(this));
     events.on("PAUSE_SLIDESHOW", this.pause.bind(this));
     events.on("NEXT_SLIDE", this.nextSlide.bind(this));
     events.on("PREV_SLIDE", this.prevSlide.bind(this));
   }
   initSlides() {
-    const { stage, loader, slides } = this;
+    const { slides } = this;
     slides.forEach((slide, i) => {
       //slide.resource = loader.resources[slide.name];
       slide.slide = new Slide(this, slide, i, this.slideDuration);
-    })
+    });
     this.currentSlide = this.slides[this.currentIndex].slide;
   }
   play() {
-    const { events } = this;
+    // const { events } = this;
     if (this.animating) {
       return;
     }
@@ -128,14 +126,13 @@ export default class Slideshow extends PIXI.Application {
       return;
     }
     console.log("PLAY");
-    
+
     this.started = true;
     this.animating = true;
     this.currentSlide.enter();
-    this.tl_slideshow = new TimelineMax({ repeat: -1 })
-      .add(() => {
-        this.nextSlide()
-      }, this.slideDuration);
+    this.tl_slideshow = new gsap.timeline().add(() => {
+      this.nextSlide();
+    }, this.slideDuration);
   }
   pause() {
     if (this.animating) {
@@ -148,15 +145,34 @@ export default class Slideshow extends PIXI.Application {
   }
   prevSlide() {
     const { events } = this;
-    let next = this.currentIndex - 1;
-    this.currentIndex = next % this.numSlides;
+    if (this.currentIndex == 0) {
+      return;
+    }
+    if (this.transitioning) {
+      return;
+    }
+    this.transitioning = true;
+    let prev = this.currentIndex - 1;
+    this.currentIndex = prev % this.numSlides;
     events.emit("SLIDE_CHANGE", this.currentIndex);
+    this.tl_slideshow.restart();
+    events.on("ALLOW_SKIP", () => {
+      this.transitioning = false;
+    });
   }
   nextSlide() {
     const { events } = this;
+    if (this.transitioning) {
+      return;
+    }
+    this.transitioning = true;
     let next = this.currentIndex + 1;
     this.currentIndex = next % this.numSlides;
     events.emit("SLIDE_CHANGE", this.currentIndex);
+    this.tl_slideshow.restart();
+    events.on("ALLOW_SKIP", () => {
+      this.transitioning = false;
+    });
   }
   onResize() {
     const { renderer, view, events } = this;
@@ -173,6 +189,6 @@ export default class Slideshow extends PIXI.Application {
     return { vw, vh, cx, cy };
   }
   animate(delta) {
-    this.events.emit('animate', delta);
+    this.events.emit("animate", delta);
   }
 }

@@ -1,35 +1,52 @@
 <template>
-  <div id="slideshow">
-    <ul id="slideshow__captions" v-show="!aboutOn">
-      <transition name="fade" appear mode="out-in">
-        <li
+  <div id="slideshow__container">
+    <div id="slideshow"></div>
+    <article id="slideshow__captions" v-show="!aboutOn">
+      <transition-group name="fade" appear mode="out-in">
+        <div
+          class="slide__info"
           v-for="(project, i) in projects"
-          :key="project.id"
-          v-if="slideIndex == i && showCaption"
-        >{{ project.caption }}</li>
-      </transition>
-    </ul>
+          :key="project._id"
+          v-show="slideIndex == i && showCaption"
+        >
+          <h2>
+            {{ project.caption }}
+          </h2>
+          <p>{{ project.credit }}</p>
+        </div>
+      </transition-group>
+    </article>
   </div>
 </template>
 
 <script>
 import bus from "@/scripts/events/eventBus.js";
-//import { Projects } from "@/scripts/data/appData.js";
 import Slideshow from "@/scripts/graphics/Slideshow.js";
 
 export default {
-  props: ['projects', 'isMobile'],
+  props: ["projects", "isMobile"],
   data() {
     return {
-     // projects: Projects,
       slideIndex: 0,
       aboutOn: false,
-      showCaption: false
+      showCaption: false,
+      transitioning: false
     };
   },
   methods: {
     initScene() {
       this.slideshow = new Slideshow(this.projects, 7, this.isMobile);
+    },
+    next() {
+      if (this.transitioning) {
+        return;
+      }
+      this.transitioning = true;
+      console.log("next");
+      bus.emit("SLIDE_CHANGE", this.slideIndex + 1);
+      setTimeout(() => {
+        this.transitioning = false;
+      }, 1500);
     }
   },
   mounted() {
@@ -54,15 +71,15 @@ export default {
     });
   },
   watch: {
-    $route (to, from) {
-      if(to.name == "ABOUT") {
+    $route(to, from) {
+      if (to.name == "ABOUT") {
         this.aboutOn = true;
       }
-      if(from.name == "ABOUT") {
+      if (from.name == "ABOUT") {
         this.aboutOn = false;
       }
     }
-  },
+  }
 };
 </script>
 <style lang="scss">

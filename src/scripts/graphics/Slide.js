@@ -1,5 +1,5 @@
-import { ShockwaveFilter } from '@pixi/filter-shockwave'
-import { getRandomInt, radians } from "../utils"
+import { ShockwaveFilter } from "@pixi/filter-shockwave";
+// import { getRandomInt, radians } from "../utils";
 
 export default class Slide extends PIXI.Container {
   constructor(app, slideData, index, slideDuration) {
@@ -12,6 +12,7 @@ export default class Slide extends PIXI.Container {
     this.onStage = false;
     this.initScale = 0;
     this.leaving = false;
+    this.tlReady = false;
     this.slideDuration = slideDuration || 12;
     Object.assign(this, { app, stage, view, events, slideData, index });
     this.initEvents();
@@ -21,17 +22,19 @@ export default class Slide extends PIXI.Container {
   }
   initEvents() {
     const { events, index } = this;
-    events.on("SLIDE_CHANGE", (e) => {
+    console.log(this);
+    events.on("SLIDE_CHANGE", e => {
       if (e == index - 1 && !this.loading && !this.ready) {
         this.load();
         console.log("LOAD " + this.slideData.name);
       }
       if (e == index) {
+        console.log("hello");
         this.enter();
       } else if (this.onStage) {
-        this.leave()
+        this.leave();
       }
-    })
+    });
     events.on("WINDOW_RESIZE", () => {
       if (this.onStage) {
         let currentBlur = this.blur.blur;
@@ -45,17 +48,17 @@ export default class Slide extends PIXI.Container {
         } else {
           this.tl_slide.progress(tlProgress).play();
         }
-        console.log('Slide reposition');
+        console.log("Slide reposition");
       }
-    })
+    });
   }
   load() {
     const { slideData, index, loader } = this;
     const { events } = this.app;
     this.loading = true;
     loader.add(slideData);
-    if(index == 0) {
-      loader.onProgress.add((e) => {
+    if (index == 0) {
+      loader.onProgress.add(e => {
         events.emit("LOAD_PROGRESS", e.progress);
       });
     }
@@ -73,7 +76,7 @@ export default class Slide extends PIXI.Container {
     const { events } = this.app;
     this.initGraphics();
     this.initFilters();
-    this.initEvents();
+    this.initAnimation();
     this.ready = true;
     this.loading = false;
     events.emit("SLIDE_LOADED", this.index);
@@ -95,27 +98,34 @@ export default class Slide extends PIXI.Container {
       amplitude: 20,
       wavelength: 400,
       radius: -1
-    }
+    };
     this.shockwave = new ShockwaveFilter([cx, cy], waveOpts);
     this.slideImg.filters = [this.blur, this.colorMatrix, this.shockwave];
   }
   initAnimation() {
     const { slideImg, blur, events } = this;
     this.positionSelf();
-    this.shockwave.time = 0;
+    // this.shockwave.time = 0;
     let that = this;
-    this.tl_slide = new TimelineMax({
+    this.tl_slide = new gsap.timeline({
       paused: true,
       onUpdate: that.onAnimate,
-      onUpdateScope: that
+      callbackScope: that
     })
+      .add(() => {
+        this.shockwave.time = 0;
+        this.saturation = -1;
+        this.colorMatrix.saturate(this.saturation, false);
+      })
       .set(slideImg, { alpha: 0 })
       .set(slideImg.scale, { x: this.initScale, y: this.initScale })
       .set(blur, { blur: 0 })
       .to(slideImg, 1, { alpha: 1 }, 0)
       .add(() => events.emit("SHOW_CAPTION"), 1.5)
+      .add(() => events.emit("ALLOW_SKIP"), 1.6)
       .to(slideImg.scale, this.slideDuration + 3, { x: "+=0.2", y: "+=0.2" }, 0)
-      .to(blur, 4, { blur: 4 }, this.slideDuration - 2)
+      .to(blur, 4, { blur: 4 }, this.slideDuration - 2);
+    this.tlReady = true;
   }
   positionSelf() {
     const { slideImg } = this;
@@ -132,6 +142,7 @@ export default class Slide extends PIXI.Container {
   }
   enter() {
     const { stage } = this;
+    console.log("enter");
     if (this.onStage) {
       return;
     }
@@ -151,7 +162,9 @@ export default class Slide extends PIXI.Container {
       return;
     }
     this.onStage = true;
-    this.initAnimation();
+    /*  if (!this.tlReady) {
+      this.initAnimation();
+    } */
     stage.addChild(this);
     this.tl_slide.restart();
     console.log("ENTER " + this.slideData.name);
@@ -165,19 +178,25 @@ export default class Slide extends PIXI.Container {
       }, 1000);
       return;
     }
-    this.leaving = setTimeout(() => {
-      stage.removeChild(this);
-      this.onStage = false;
-      this.tl_slide.kill();
-    }, 2000);
+    gsap.to(this.slideImg, 1.2, {
+      alpha: 0,
+      onComplete: () => {
+        console.log(this);
+        stage.removeChild(this);
+        this.onStage = false;
+      }
+    });
+    /*   this.leaving = setTimeout(() => {
+      // this.tl_slide.kill();
+    }, 1000); */
   }
   play() {
     this.tl_slide.resume();
-    TweenMax.to(this.blur, 1, { blur: 0 });
+    gsap.to(this.blur, 1, { blur: 0 });
   }
   pause() {
     this.tl_slide.pause();
-    TweenMax.to(this.blur, 1, { blur: 6 });
+    gsap.to(this.blur, 1, { blur: 6 });
   }
   onAnimate() {
     let progress = this.tl_slide.progress();
@@ -186,7 +205,7 @@ export default class Slide extends PIXI.Container {
     }
     if (progress > 0.05 && this.saturation < 0) {
       this.saturation += 0.05;
-      this.colorMatrix.saturate(this.saturation, false)
+      this.colorMatrix.saturate(this.saturation, false);
     }
   }
 }

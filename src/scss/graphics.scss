@@ -1,19 +1,37 @@
-#slideshow {
-  //@include abs100();
+#slideshow__container {
   position: absolute;
   top: $borderWidth;
   right: $borderWidth;
   bottom: $borderWidth;
   left: $borderWidth;
   position: fixed;
-  #slideshow__captions {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    font-size: 0.8rem;
-    opacity: 0.9;
-    li {
-      text-shadow: 0 0 3px rgba(0,0,0,0.7);
-    }
+}
+#slideshow {
+  @include abs100();
+}
+#slideshow__captions {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  li {
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  }
+}
+#slideshow__controls {
+  position: absolute;
+  height: 80vh;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  .control {
+    width: 10%;
+    height: 100%;
+    background-color: red;
+    z-index: 1000;
+    pointer-events: all;
   }
 }

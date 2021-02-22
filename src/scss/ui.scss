@@ -8,7 +8,11 @@ $close_size_sml: 20px;
   transition: 1s all ease;
   background: none;
   background: rgba(0, 0, 0, 0.1);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
   &.on {
     border: $borderWidth solid $appLightGrey;
   }
@@ -171,12 +175,27 @@ $close_size_sml: 20px;
 }
 
 #slideshow__controller {
-  @include abs100();
+  position: absolute;
+  width: 100vw;
+  height: 80vh;
+  left: 0;
+  bottom: 0;
   display: flex;
-  .slideshow__skip {
-    width: 50%;
-    height: 100vh;
+  justify-content: space-between;
+  .slideshow__ctrl {
+    width: 25%;
+    height: 100%;
     background: none;
+  }
+  #slideshow__next {
+    &.active {
+      cursor: e-resize;
+    }
+  }
+  #slideshow__prev {
+    &.active {
+      cursor: w-resize;
+    }
   }
 }
 
