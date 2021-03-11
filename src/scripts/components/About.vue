@@ -21,6 +21,9 @@
           >iain@studioima.co.uk</a
         >
         <a href="tel:+447840147442">+44 (0)7840 147442</a>
+        <a href="https://www.instagram.com/iamiainmacleod/" class="insta"
+          >follow us</a
+        >
         <div id="about__org-logos__mobile">
           <img src="static/images/riba_logo.svg" alt="riba" />
           <img src="static/images/rias_logo.svg" alt="rias" />
