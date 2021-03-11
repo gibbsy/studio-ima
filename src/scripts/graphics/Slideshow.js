@@ -49,11 +49,10 @@ export default class Slideshow extends PIXI.Application {
       let hero = {
         id: project._id,
         name: project.title,
-        path: `/project/${project.id}`,
         url: urlFor(project.heroImage)
           .width(initWidth)
           .height(initHeight)
-          .dpr(2)
+          // .dpr(2)
           .format("jpg")
           .quality(40)
           .url()
@@ -62,14 +61,7 @@ export default class Slideshow extends PIXI.Application {
 
       this.numSlides = this.slides.length;
     });
-    // let manifest = [...this.slides];
-    /* this.load(manifest, () => {
-      setTimeout(() => {
-        bus.emit("IMAGES_LOADED");
-        bus.emit("PLAY_SLIDESHOW")
-      }, 3000);
-    })
- */
+
     this.init();
   }
   init() {

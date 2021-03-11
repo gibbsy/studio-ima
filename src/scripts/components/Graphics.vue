@@ -12,7 +12,7 @@
           <h2>
             {{ project.caption }}
           </h2>
-          <p>{{ project.credit }}</p>
+          <h4>{{ project.credit }}</h4>
         </div>
       </transition-group>
     </article>
