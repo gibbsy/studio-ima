@@ -27,7 +27,7 @@ import Graphics from "@/scripts/components/Graphics";
 import sanity from "@/scripts/data/sanity";
 
 const query = `{
-  "projects":*[_type=="projectList"]{featuredProjects[]->{_id, slug, title, heroImage, caption, credit, featuredMobile}},
+  "projects":*[_type=="projectList"]{featuredProjects[]->{_id, slug, title, heroImage, caption, credit}},
 	"about": *[_type=="about"]
 }`;
 export default {
@@ -61,7 +61,7 @@ export default {
           this.initSlideshow()
         })
       }) */
-      sanity.fetch(query).then(
+      /* sanity.fetch(query).then(
         data => {
           console.log(data);
           let projects = data.projects[0].featuredProjects;
@@ -81,6 +81,21 @@ export default {
             this.projects = projects;
           }
 
+          this.about = data.about[0];
+          this.initSlideshow();
+        },
+        error => {
+          console.error(error);
+        }
+      ); */
+      sanity.fetch(query).then(
+        data => {
+          console.log(data);
+          let projects = data.projects[0].featuredProjects;
+          projects.forEach((el, i) => {
+            el.index = i;
+          });
+          this.projects = projects;
           this.about = data.about[0];
           this.initSlideshow();
         },
