@@ -27,7 +27,7 @@ import Graphics from "@/scripts/components/Graphics";
 import sanity from "@/scripts/data/sanity";
 
 const query = `{
-  "projects":*[_type=="projectList"]{featuredProjects[]->{_id, slug, title, heroImage, caption, credit}},
+  "projects":*[_type=="projectList"]{featuredProjects[]->{_id, slug, title, heroImage, mobileHeroImage, caption, credit}},
 	"about": *[_type=="about"]
 }`;
 export default {
@@ -48,7 +48,9 @@ export default {
   },
   methods: {
     getData() {
-      /*  var endPoint = this.isMobile ? 'projectsMobile' : 'projects';
+      /*  
+      Get the data and create a separate projects list if on mobile
+      var endPoint = this.isMobile ? 'projectsMobile' : 'projects';
       axios.get('https://v2-api.sheety.co/e823bbe735347c6307cf679fdceeca0c/studioIma/' + endPoint)
       .then(response => {
         console.log(response);
