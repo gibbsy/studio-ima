@@ -42,19 +42,35 @@ export default class Slideshow extends PIXI.Application {
     this.numSlides = 0;
     this.slideDuration = slideDuration || 12;
 
-    // let imgRes = this.isMobile ? "mob" : "hd";
+    let imgWidth, imgHeight;
+    if (this.isMobile) {
+      if (initWidth < initHeight) {
+        imgWidth = imgHeight = Math.floor(initHeight * 1.1);
+      } else {
+        imgWidth = imgHeight = Math.floor(initWidth * 1.1);
+      }
+    } else {
+      imgWidth = Math.floor(initWidth * 1.1);
+      imgHeight = Math.floor(initHeight * 1.1);
+    }
 
     projects.forEach(project => {
+      let imgSrc = project.heroImage;
+      if (this.isMobile) {
+        if (project.mobileHeroImage) {
+          imgSrc = project.mobileHeroImage;
+        }
+      }
       console.log(project);
       let hero = {
         id: project._id,
         name: project.title,
-        url: urlFor(project.heroImage)
-          .width(initWidth)
-          .height(initHeight)
+        url: urlFor(imgSrc)
+          .width(imgWidth)
+          .height(imgHeight)
           // .dpr(2)
           .format("jpg")
-          .quality(40)
+          .quality(this.isMobile ? 70 : 50)
           .url()
       };
       this.slides.push(hero);
