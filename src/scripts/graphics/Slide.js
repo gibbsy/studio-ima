@@ -49,7 +49,7 @@ export default class Slide extends PIXI.Container {
           this.tl_slide.progress(tlProgress).play();
         }
         console.log("Slide reposition");
-      } else if (this.restart) {
+      } else if (this.ready) {
         this.tl_slide.kill();
         this.initAnimation();
       }
