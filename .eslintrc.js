@@ -6,8 +6,6 @@ module.exports = {
   },
   extends: [
     "plugin:vue/essential",
-    // bit full on for me - trying base
-    //"plugin:vue/recommended",
     "eslint:recommended",
     "prettier/vue",
     "plugin:prettier/recommended"
