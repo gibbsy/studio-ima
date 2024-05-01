@@ -20,7 +20,7 @@
         <a href="mailto:iain@studioima.co.uk" target="_blank"
           >iain@studioima.co.uk</a
         >
-        <a href="tel:+447840147442">+44 (0)7840 147442</a>
+        <a href="tel:+441316599994">+44 (0)131 659 9994</a>
         <a href="https://www.instagram.com/studioima.architects/" class="insta"
           >follow us</a
         >
