@@ -1,0 +1,5 @@
+﻿{
+  "Description": "Domain ownership verification file for Microsoft 365 - place in the website root",
+  "Domain": "studioima.co.uk",
+  "Id": "f0bc6647-8132-4251-afcb-02b3d6d2da7f"
+}
